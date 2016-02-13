@@ -1,0 +1,1 @@
+Simple helper for ToString overrides.
