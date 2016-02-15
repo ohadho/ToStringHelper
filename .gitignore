@@ -27,3 +27,7 @@
 *.suo
 *.pdb
 *.cache
+
+obj/
+Tests/bin/
+Tests/obj/

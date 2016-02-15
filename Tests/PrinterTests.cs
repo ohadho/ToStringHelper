@@ -14,6 +14,9 @@ namespace Tests
 
         public static int publicStatic = 0;
         private static int privateStatic = 1;
+
+        [PrintObjIgnore]
+        public int fieldToIgnore = 1;
     }
 
     public class PropertiesClass
@@ -49,7 +52,7 @@ namespace Tests
         {
             var s = Printer.Print().PrintObj(new FieldsClass());
             Console.WriteLine(s);
-            Assert.IsTrue(s.Contains("publicStatic: 0"));
+            Assert.IsFalse(s.Contains("fieldToIgnore: 1"));
         }
 
         [Test]
@@ -61,11 +64,19 @@ namespace Tests
         }
 
         [Test]
-        public void TestPublicAutoProperty()
+        public void TestIgnoreAttirbute()
         {
-            var s = Printer.Print().PrintObj(new PropertiesClass());
+            var s = Printer.Print().PrintObj(new FieldsClass());
             Console.WriteLine(s);
-            Assert.IsTrue(s.Contains("PublicAutoProp: 1"));
+            Assert.IsFalse(s.Contains("privateStatic: 1"));
         }
+
+//        [Test]
+//        public void TestPublicAutoProperty()
+//        {
+//            var s = Printer.Print().PrintObj(new PropertiesClass());
+//            Console.WriteLine(s);
+//            Assert.IsTrue(s.Contains("PublicAutoProp: 1"));
+//        }
     }
 }

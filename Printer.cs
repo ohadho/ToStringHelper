@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Microsoft.SqlServer.Server;
+
 
 namespace PrintObj
 {
@@ -11,9 +10,7 @@ namespace PrintObj
     {
         public static IPrinter Print()
         {
-            Printer ret = new Printer();
-
-            return ret;
+            return new Printer();
         }
 
         public string PrintObj(object obj)
@@ -25,10 +22,34 @@ namespace PrintObj
             var res = string.Empty;
             foreach (var fieldInfo in fields)
             {
-                res += fieldInfo.Name + ": " + fieldInfo.GetValue(obj).ToString() + " ";
+                if (ShouldSkip(fieldInfo))
+                    continue;
+                res += string.Format("{0}: {1} ", fieldInfo.Name, fieldInfo.GetValue(obj));
             }
 
             return res;
+        }
+
+        private bool ShouldSkip(FieldInfo fieldInfo)
+        {
+            var customAttributes = fieldInfo.GetCustomAttributes(false);
+            if (HasIgnoreAttribute(customAttributes))
+                return true;
+
+            return false;
+        } 
+
+        private bool HasIgnoreAttribute(object[] customAttributes)
+        {
+            foreach (var customAttribute in customAttributes)
+            {
+                if (customAttribute.GetType() == typeof (PrintObjIgnoreAttribute))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
