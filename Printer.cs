@@ -31,6 +31,8 @@ namespace PrintObj
 
                 if (pi != null)
                 {
+                    if (ShouldSkip(pi))
+                        continue;
                     res += string.Format("{0}: {1} ", pi.Name, fieldInfo.GetValue(obj));
                 }
                 else
@@ -40,6 +42,11 @@ namespace PrintObj
             }
 
             return res;
+        }
+
+        private bool ShouldSkip(PropertyInfo pi)
+        {
+            return pi.GetCustomAttributes(typeof (PrintObjIgnoreAttribute), false).Any();
         }
 
         private static Dictionary<FieldInfo, PropertyInfo>  GetBackingFields(object obj)

@@ -36,6 +36,9 @@ namespace Tests
         }
 
         public int PublicAutoProp { get; set; }
+        
+        [PrintObjIgnore]
+        public int IgnoredPublicAutoProp { get; set; }
     }
 
 
@@ -87,6 +90,14 @@ namespace Tests
             var s = Printer.Print().PrintObj(new PropertiesClass());
             Console.WriteLine(s);
             Assert.IsTrue(s.Contains("PublicAutoProp: 1"));
+        }
+
+        [Test]
+        public void TestIgnoredPublicAutoProperty()
+        {
+            var s = Printer.Print().PrintObj(new PropertiesClass());
+            Console.WriteLine(s);
+            Assert.IsFalse(s.Contains("IgnoredPublicAutoProp"));
         }
     }
 }
