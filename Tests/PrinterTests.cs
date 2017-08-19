@@ -22,9 +22,17 @@ namespace Tests
 
     public class PropertiesClass
     {
+        private int fieldProperty;
         public PropertiesClass()
         {
             PublicAutoProp = 1;
+        }
+
+
+        public int PublicProp
+        {
+            get { return fieldProperty; }
+            set { fieldProperty = value; }
         }
 
         public int PublicAutoProp { get; set; }
@@ -73,12 +81,12 @@ namespace Tests
             Assert.IsFalse(s.Contains("fieldToIgnore"));
         }
 
-//        [Test]
-//        public void TestPublicAutoProperty()
-//        {
-//            var s = Printer.Print().PrintObj(new PropertiesClass());
-//            Console.WriteLine(s);
-//            Assert.IsTrue(s.Contains("PublicAutoProp: 1"));
-//        }
+        [Test]
+        public void TestPublicAutoProperty()
+        {
+            var s = Printer.Print().PrintObj(new PropertiesClass());
+            Console.WriteLine(s);
+            Assert.IsTrue(s.Contains("PublicAutoProp: 1"));
+        }
     }
 }
