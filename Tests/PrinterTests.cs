@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using PrintObj;
+using TypeMock.ArrangeActAssert;
 
 namespace Tests
 {
@@ -29,7 +30,8 @@ namespace Tests
         public int PublicAutoProp { get; set; }
     }
 
-    [TestFixture]
+
+    [TestFixture, Isolated]
     public class PrinterTests
     {
         [Test]
@@ -68,7 +70,7 @@ namespace Tests
         {
             var s = Printer.Print().PrintObj(new FieldsClass());
             Console.WriteLine(s);
-            Assert.IsFalse(s.Contains("privateStatic: 1"));
+            Assert.IsFalse(s.Contains("fieldToIgnore"));
         }
 
 //        [Test]

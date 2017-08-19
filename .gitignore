@@ -27,6 +27,7 @@
 *.suo
 *.pdb
 *.cache
+*.sln.DotSettings.user
 
 obj/
 Tests/bin/
